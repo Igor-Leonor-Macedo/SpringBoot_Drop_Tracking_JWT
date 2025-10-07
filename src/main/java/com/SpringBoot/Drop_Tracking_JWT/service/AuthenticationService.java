@@ -1,4 +1,4 @@
-package com.SpringBoot.Drop_Tracking_JWT.service.jwt;
+package com.SpringBoot.Drop_Tracking_JWT.service;
 
 public class AuthenticationService {
 }
