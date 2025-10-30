@@ -35,7 +35,7 @@ public class UserService {
     public String updateUserPassword(UserRequestDto userRequestDto) {
         return userRepository.findByCpf(userRequestDto.getCpf())
                 .map(user -> {
-                    user.setPassword(userRequestDto.getPassword());
+                    user.setPassword(passwordEncoder.encode(userRequestDto.getPassword()));
                     userRepository.save(user);
                     return ("Senha atualizada com sucesso!");
                 })

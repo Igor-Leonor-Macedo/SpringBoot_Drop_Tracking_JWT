@@ -26,6 +26,6 @@ public class UserController {
     @PutMapping("/update")
     public ResponseEntity<String> UpdateUser(@Valid @RequestBody UserRequestDto userRequestDto){
         String update = userService.updateUserPassword(userRequestDto);
-        return ResponseEntity.status(HttpStatus.UPGRADE_REQUIRED).body(update);
+        return ResponseEntity.status(HttpStatus.OK).body(update);
     }
 }
