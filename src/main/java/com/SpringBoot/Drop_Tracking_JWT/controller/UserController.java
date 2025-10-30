@@ -5,13 +5,11 @@ import com.SpringBoot.Drop_Tracking_JWT.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/users")
+@CrossOrigin(origins = "http://localhost:4200", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT}) // Aplica CORS para todos os métodos desse controlador
 public class UserController {
 
     private final UserService userService;
@@ -21,7 +19,13 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<String> SaveUser(@Valid @RequestBody UserRequestDto userRequestDto){
-        String required = userService.createUser(userRequestDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(required);
+        String register = userService.createUser(userRequestDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(register);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<String> UpdateUser(@Valid @RequestBody UserRequestDto userRequestDto){
+        String update = userService.updateUserPassword(userRequestDto);
+        return ResponseEntity.status(HttpStatus.UPGRADE_REQUIRED).body(update);
     }
 }

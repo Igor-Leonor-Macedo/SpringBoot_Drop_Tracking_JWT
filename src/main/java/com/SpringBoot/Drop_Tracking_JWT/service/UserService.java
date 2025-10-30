@@ -3,6 +3,7 @@ package com.SpringBoot.Drop_Tracking_JWT.service;
 import com.SpringBoot.Drop_Tracking_JWT.dto.request.UserRequestDto;
 import com.SpringBoot.Drop_Tracking_JWT.entity.User;
 import com.SpringBoot.Drop_Tracking_JWT.exception.ExistingUserException;
+import com.SpringBoot.Drop_Tracking_JWT.exception.UserNotFoundException;
 import com.SpringBoot.Drop_Tracking_JWT.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,5 +30,15 @@ public class UserService {
         user.setRoles(userRequestDto.getRoles());
         userRepository.save(user);
         return ("Usuário Salvo.");
+    }
+
+    public String updateUserPassword(UserRequestDto userRequestDto) {
+        return userRepository.findByCpf(userRequestDto.getCpf())
+                .map(user -> {
+                    user.setPassword(userRequestDto.getPassword());
+                    userRepository.save(user);
+                    return ("Senha atualizada com sucesso!");
+                })
+                .orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
     }
 }
