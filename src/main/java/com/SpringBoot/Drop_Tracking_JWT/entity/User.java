@@ -11,19 +11,15 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private String name;
     private String cpf;
+    private String email;
     private String password;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name="USER_ROLES", joinColumns = @JoinColumn(name = "id"))
     @Column(name = "role_id")
     private List<String> roles = new ArrayList<>();
-
-    public User(String cpf, String password, List<String> roles) {
-        this.cpf = cpf;
-    }
-
-    public User() {}
 
     public Long getId() {
         return id;
@@ -33,12 +29,28 @@ public class User {
         this.id = id;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getCpf() {
         return cpf;
     }
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
