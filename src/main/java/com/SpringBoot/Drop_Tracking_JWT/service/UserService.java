@@ -9,6 +9,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+
 @Service
 @Transactional
 public class UserService {
@@ -25,9 +27,11 @@ public class UserService {
             throw new ExistingUserException("CPF já cadastrado!");}
 
         User user = new User();
+        user.setName(userRequestDto.getName());
         user.setCpf(userRequestDto.getCpf());
+        user.setEmail(userRequestDto.getEmail());
         user.setPassword(passwordEncoder.encode(userRequestDto.getPassword()));
-        user.setRoles(userRequestDto.getRoles());
+        user.setRoles(Collections.singletonList("USER_ROLE"));
         userRepository.save(user);
         return ("Usuário Salvo.");
     }
