@@ -38,17 +38,19 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Adicionado esta linha
+                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Permite acesso do front-end ao back-end
                 .csrf(csrf -> csrf.disable())
                 .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin())) // Alterado para sameOrigin
                 .authorizeHttpRequests(
                         auth -> auth
-                                .requestMatchers("/authenticate").permitAll()
-                                .requestMatchers("/authenticateUser").permitAll()
-                                .requestMatchers("/login").permitAll()
-                                .requestMatchers("/validate").permitAll()
-                                .requestMatchers(HttpMethod.POST, "api/users/**").permitAll()
-                                .requestMatchers(HttpMethod.PUT, "api/users/**").permitAll()
+                                .requestMatchers(
+                                        "/authenticate",
+                                        "/authenticateUser",
+                                        "/login",
+                                        "/validate"
+                                ).permitAll()
+                                .requestMatchers(HttpMethod.POST, "api/users/register").permitAll()
+                                .requestMatchers(HttpMethod.PUT, "api/users/update").permitAll()
                                 .requestMatchers("/h2-console/**").permitAll()
                                 .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
@@ -59,7 +61,7 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200")); // Ou IP do servidor
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);

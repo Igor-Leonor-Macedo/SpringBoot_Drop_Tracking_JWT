@@ -1,6 +1,7 @@
 package com.SpringBoot.Drop_Tracking_JWT.service;
 
 import com.SpringBoot.Drop_Tracking_JWT.dto.request.LoginRequestDto;
+import com.SpringBoot.Drop_Tracking_JWT.dto.response.LoginResponseDto;
 import com.SpringBoot.Drop_Tracking_JWT.entity.User;
 import com.SpringBoot.Drop_Tracking_JWT.exception.InvalidCredentialsException;
 import com.SpringBoot.Drop_Tracking_JWT.exception.UserNotFoundException;
@@ -27,7 +28,7 @@ public class AuthenticationService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public String login(LoginRequestDto loginRequestDto) {
+    public LoginResponseDto login(LoginRequestDto loginRequestDto) {
         User user = userRepository.findByCpf(loginRequestDto.getCPF())
                 .orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
         // Verifica se a senha está correta
@@ -36,7 +37,17 @@ public class AuthenticationService {
         }
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(loginRequestDto.getCPF(), loginRequestDto.getPassword());
-        return jwtService.generateToken(authentication, user);
+        String token = jwtService.generateToken(authentication, user);
+
+        return new LoginResponseDto(
+                user.getId(),
+                user.getName(), // assumindo que User tem getName()
+                user.getCpf(),  // assumindo que User tem getCpf()
+                user.getEmail(), // assumindo que User tem getEmail()
+                user.getRoles(), // assumindo que User tem getRoles()
+                true, // authenticated
+                token
+        );
     }
 
     public String authenticate(Authentication authentication) {
