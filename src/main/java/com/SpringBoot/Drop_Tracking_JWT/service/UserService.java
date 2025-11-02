@@ -31,7 +31,7 @@ public class UserService {
         user.setCpf(userRequestDto.getCpf());
         user.setEmail(userRequestDto.getEmail());
         user.setPassword(passwordEncoder.encode(userRequestDto.getPassword()));
-        user.setRoles(Collections.singletonList("USER_ROLE"));
+        user.setRoles(Collections.singletonList("ROLE_USER"));
         userRepository.save(user);
         return ("Usuário Salvo.");
     }
