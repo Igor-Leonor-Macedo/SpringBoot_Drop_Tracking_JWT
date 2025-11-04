@@ -37,6 +37,9 @@ public class JwtService {
                 .subject(authentication.getName())  // Usuário (subject)
                 //.claim("roles", roles)            // Roles customizadas
                 .claim("userId", user.getId())           // ID do usuário
+                .claim("name", user.getName())           // Name do usuário
+                .claim("cpf", user.getCpf())             // CPF do usuário
+                .claim("email", user.getEmail())         // E-mail do usuário
                 .claim("roles", user.getRoles())         // Regras do usuário
                 .build();
 

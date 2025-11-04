@@ -23,10 +23,10 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDto> login(@Valid @RequestBody LoginRequestDto loginRequestDto) {
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequestDto loginRequestDto) {
         // Retorna o token como String para o front-end
-        LoginResponseDto loginResponseDto = authenticationService.login(loginRequestDto);
-        return ResponseEntity.ok(loginResponseDto); // Wrap token in a response object
+        String token = authenticationService.login(loginRequestDto);
+        return ResponseEntity.ok(token); // Wrap token in a response object
     }
 
     @PostMapping("authenticateUser")

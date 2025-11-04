@@ -28,7 +28,7 @@ public class AuthenticationService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public LoginResponseDto login(LoginRequestDto loginRequestDto) {
+    public String login(LoginRequestDto loginRequestDto) {
         User user = userRepository.findByCpf(loginRequestDto.getCPF())
                 .orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
         // Verifica se a senha está correta
@@ -37,17 +37,7 @@ public class AuthenticationService {
         }
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(loginRequestDto.getCPF(), loginRequestDto.getPassword());
-        String token = jwtService.generateToken(authentication, user);
-
-        return new LoginResponseDto(
-                user.getId(),
-                user.getName(), // assumindo que User tem getName()
-                user.getCpf(),  // assumindo que User tem getCpf()
-                user.getEmail(), // assumindo que User tem getEmail()
-                user.getRoles(), // assumindo que User tem getRoles()
-                true, // authenticated
-                token
-        );
+        return jwtService.generateToken(authentication, user);
     }
 
     public String authenticate(Authentication authentication) {
