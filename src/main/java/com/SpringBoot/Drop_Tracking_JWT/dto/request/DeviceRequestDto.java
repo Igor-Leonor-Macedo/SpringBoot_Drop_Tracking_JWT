@@ -1,14 +1,8 @@
-package com.SpringBoot.Drop_Tracking_JWT.entity;
-
-import jakarta.persistence.*;
+package com.SpringBoot.Drop_Tracking_JWT.dto.request;
 
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "DEVICE")
-public class Device {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class DeviceRequestDto {
     private Long id;
     private String macAddress;
     private String ipAddress;
@@ -17,9 +11,7 @@ public class Device {
     private LocalDateTime firstSeenAt;
     private LocalDateTime lastSeenAt;
 
-    public Device(String macAddress, String ipAddress, String deviceName, LocalDateTime localDateTime) {
-    }
-
+    public DeviceRequestDto() {}
 
     public Long getId() {
         return id;
